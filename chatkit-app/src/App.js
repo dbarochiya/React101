@@ -12,11 +12,12 @@ class App extends Component {
   }
 
   onUsernameSubmit = username => {
-    const data = JSON.stringify({ username });
-
     fetch("http://localhost:3001/users", {
       method: "POST",
-      body: data
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username })
     })
       .then(response => {
         this.setState({
