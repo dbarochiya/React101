@@ -2,6 +2,8 @@ import React from "react";
 import RoomList from "./roomlist";
 import MessageList from "./messagelist";
 import SendMessageForm from "./sendmessageform";
+import Profile from "./profile";
+import OnlineUsers from "./onlineUsers";
 import NewRoomForm from "./newroomform";
 import Chatkit from "@pusher/chatkit";
 
@@ -10,6 +12,7 @@ class ChatScreen extends React.Component {
     super();
     this.state = {
       roomId: null,
+      onlineUsers: [],
       messages: [],
       joinableRooms: [],
       joinedRooms: []
@@ -45,12 +48,29 @@ class ChatScreen extends React.Component {
           onNewMessage: message => {
             // console.log(`Received new message: ${message.text}`);
             this.setState({ messages: [...this.state.messages, message] });
-          }
+          },
+          userStartedTyping: user => {
+            this.setState({
+              usersWhoAreTyping: [...this.state.usersWhoAreTyping, user.name]
+            });
+          },
+          userStoppedTyping: user => {
+            this.setState({
+              usersWhoAreTyping: this.state.usersWhoAreTyping.filter(
+                username => username !== user.name
+              )
+            });
+          },
+
+          onUserCameOnline: () => this.forceUpdate(),
+          onUserWentOffline: () => this.forceUpdate(),
+          onUserJoined: () => this.forceUpdate()
         }
       })
       .then(room => {
         this.setState({
-          roomId: room.id
+          roomId: room.id,
+          onlineUsers: room.users
         });
         this.getRooms();
       })
@@ -89,8 +109,11 @@ class ChatScreen extends React.Component {
   };
 
   render() {
+    //console.log(this.state);
     return (
       <div className="app">
+        <Profile />
+        <OnlineUsers users={this.state.onlineUsers} />
         <RoomList
           onSubscribeToRoom={this.subscribeToRoom}
           rooms={[...this.state.joinedRooms, ...this.state.joinableRooms]}
