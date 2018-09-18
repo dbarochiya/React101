@@ -24,9 +24,9 @@ body {
   display: grid;
   height: 100%;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 60px;
+  grid-template-rows: 80px 1fr 1fr 1fr 1fr 60px;
   grid-template-areas:
-    "r m m m m m"
+    "p o o o o o"
     "r m m m m m"
     "r m m m m m"
     "r m m m m m"
@@ -34,6 +34,13 @@ body {
     "n f f f f f";
 }
 
+.my-profile {
+  grid-area: p;
+}
+
+.online-users {
+  grid-area: o;
+}
 .new-room-form {
   grid-area: n;
 }
@@ -186,4 +193,13 @@ body {
 .help-text {
   position: absolute;
   top: 10px;
+}
+
+.online-users-list {
+  display: inline;
+}
+
+.online-users-list-item {
+  display: inline;
+  margin-left: 2px;
 }
