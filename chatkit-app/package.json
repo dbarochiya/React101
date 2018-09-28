@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.1.0",
     "@pusher/chatkit": "^0.7.17",
     "@pusher/chatkit-server": "^0.12.2",
     "body-parser": "^1.18.3",
